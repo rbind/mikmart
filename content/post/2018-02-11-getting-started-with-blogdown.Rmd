@@ -3,11 +3,15 @@ title: 'Blogging: Getting started'
 author: Mikko Marttila
 date: '2018-02-11'
 slug: getting-started
-categories: [meta]
-tags: [blogdown]
+categories:
+  - meta
+tags:
+  - blogdown
+  - hugo
+weight: 2
 ---
 
-For a while now, I've been thinking about starting a blog. In the aftermath of [rstudio::conf](https://www.rstudio.com/conference/) this year, I finally decided it was time to act on those thoughts, and put something out there. And [Yihui Xie](https://twitter.com/xieyihui)'s [**blogdown** book](https://bookdown.org/yihui/blogdown/) seemed like a great place to start.
+For a while now, I've been thinking about starting a "data science-y" blog. In the aftermath of [rstudio::conf](https://www.rstudio.com/conference/) this year, I finally decided it was time to act on those thoughts, and put something out there. And [Yihui Xie](https://twitter.com/xieyihui)'s [**blogdown** book](https://bookdown.org/yihui/blogdown/) seemed like a great place to start.
 
 ```{r, echo = F}
 blogdown::shortcode("tweet", "959522839077339136")
