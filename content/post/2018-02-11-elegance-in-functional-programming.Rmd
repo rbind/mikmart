@@ -1,0 +1,29 @@
+---
+title: 'Elegance in functional programming'
+author: Mikko Marttila
+date: '2018-02-11'
+slug: elegance-in-functional-programming
+categories:
+  - r
+tags:
+  - advanced-r
+---
+
+As I [wrote before](/2018/02/11/getting-started/), I'm going to be working through some problems that caught my interest in Hadley Wickham's [second edition of Advanced R](https://adv-r.hadley.nz/). I'm starting off with the [functional programming chapter](https://adv-r.hadley.nz/functional-programming.html), where an exercise that literally made me go "wow" was a major source of inspiration for me to start this blog -- I'm talking about Exercise 2 in [Section 9.5.1](https://adv-r.hadley.nz/functionals.html#exercises-29).
+
+The problem itself revolves around the mathematical idea of fixed points of functions, i.e. points $x$ such that $f(x) = x$ for a given function $f$. This bit of code pops up in one possible implementation of a computational method to find such points:^[The implementation was presented as a Lisp function in Harold Abelson's [Structure and Interpretation of Computer Programs (1996)](https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-12.html#%_sec_1.3). Here, I've just adapted it to the equivalent R code.]
+
+```{r try-definition, eval = F}
+try <- function(guess) {
+  if (good_enough(guess))
+    return(guess)
+  else
+    try(new(guess))
+}
+```
+
+Isn't that just great? Using functional programming coupled with meaningful names, we can essentially write out the idea of iteration in a block of fully functioning code that reads almost like prose.
+
+Now, to be clear, the snippet above is clearly not the complete picture, nor the solution for the problem -- but it's the part that really made me stop and think, or "pause and ponder"^[A phrase often used on Grant Sanderson's [3Blue1Brown](https://www.youtube.com/3Blue1Brown) YouTube channel, where he publishes fantastic videos visualizing abstract mathematical concepts -- highly recommended!], if you will.
+
+My intention was to go through the fixed point algorithm problem more thoroughly already in this post, but on second thought, I think I'll leave it for later. The beautiful function presented here deserves the highlight of a post of it's own, don't you think?

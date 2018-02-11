@@ -1,0 +1,31 @@
+---
+title: 'Elegance in functional programming'
+author: Mikko Marttila
+date: '2018-02-11'
+slug: elegance-in-functional-programming
+categories:
+  - r
+tags:
+  - advanced-r
+---
+
+
+
+<p>As I <a href="/2018/02/11/getting-started/">wrote before</a>, I’m going to be working through some problems that caught my interest in Hadley Wickham’s <a href="https://adv-r.hadley.nz/">second edition of Advanced R</a>. I’m starting off with the <a href="https://adv-r.hadley.nz/functional-programming.html">functional programming chapter</a>, where an exercise that literally made me go “wow” was a major source of inspiration for me to start this blog – I’m talking about Exercise 2 in <a href="https://adv-r.hadley.nz/functionals.html#exercises-29">Section 9.5.1</a>.</p>
+<p>The problem itself revolves around the mathematical idea of fixed points of functions, i.e. points <span class="math inline">\(x\)</span> such that <span class="math inline">\(f(x) = x\)</span> for a given function <span class="math inline">\(f\)</span>. This bit of code pops up in one possible implementation of a computational method to find such points:<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
+<pre class="r"><code>try &lt;- function(guess) {
+  if (good_enough(guess))
+    return(guess)
+  else
+    try(new(guess))
+}</code></pre>
+<p>Isn’t that just great? Using functional programming coupled with meaningful names, we can essentially write out the idea of iteration in a block of fully functioning code that reads almost like prose.</p>
+<p>Now, to be clear, the snippet above is clearly not the complete picture, nor the solution for the problem – but it’s the part that really made me stop and think, or “pause and ponder”<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>, if you will.</p>
+<p>My intention was to go through the fixed point algorithm problem more thoroughly already in this post, but on second thought, I think I’ll leave it for later. The beautiful function presented here deserves the highlight of a post of it’s own, don’t you think?</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>The implementation was presented as a Lisp function in Harold Abelson’s <a href="https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-12.html#%_sec_1.3">Structure and Interpretation of Computer Programs (1996)</a>. Here, I’ve just adapted it to the equivalent R code.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>A phrase often used on Grant Sanderson’s <a href="https://www.youtube.com/3Blue1Brown">3Blue1Brown</a> YouTube channel, where he publishes fantastic videos visualizing abstract mathematical concepts – highly recommended!<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>
