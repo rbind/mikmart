@@ -5,7 +5,7 @@ date: "2018-02-11"
 
 # Me
 
-I'm a recently graduated statistician from Finland, excited about maths, data science and R. I currently work as a biostatistician in the R&D department at [Orion Corporation](https://www.orion.fi/en).
+I'm a recently graduated statistician from Finland, excited about maths, data science, and R. I currently work as a biostatistician in the R&D department at [Orion Corporation](https://www.orion.fi/en).
 
 # Site
 
