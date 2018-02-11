@@ -1,10 +1,22 @@
 ---
-title: Getting started, with blogdown
+title: 'Blogging: Getting started'
 author: Mikko Marttila
 date: '2018-02-11'
-slug: getting-started-with-blogdown
-categories: []
-tags: []
+slug: getting-started
+categories: [meta]
+tags: [blogdown]
 ---
 
-For a while now, I've been thinking about starting a blog.
+For a while now, I've been thinking about starting a blog. In the aftermath of [rstudio::conf](https://www.rstudio.com/conference/) this year, I finally decided it was time to act on those thoughts, and put something out there. And [Yihui Xie](https://twitter.com/xieyihui)'s [**blogdown** book](https://bookdown.org/yihui/blogdown/) seemed like a great place to start.
+
+```{r, echo = F}
+blogdown::shortcode("tweet", "959522839077339136")
+```
+
+Since most of my content would likely revolve around statistics and [R](https://www.r-project.org/), writing posts directly in [R Markdown](https://rmarkdown.rstudio.com/) was basically a requirement for my blogging framework. I also wanted to have a modern looking site without too much hassle, but while still being able to customize some things here and there, if (and when) I felt like it. 
+
+Turns out, using [**blogdown**](https://github.com/rstudio/blogdown) with [RStudio](https://www.rstudio.com/) to interface with [Hugo](https://gohugo.io/) (a powerful static site generator with a strong templating system) can provide just that. Combined with deploying the site on [Netlify](https://www.netlify.com/) via a [GitHub](https://github.com/) repo, the whole pipeline provides an excellent structure for me to keep working on key data science skills that come up less often in my daily life as a biostatistician: R Markdown, and version control; while having a central location to organize my thoughts in.
+
+Getting started was... fairly straightforward, yet not quite as simple as I had perhaps hoped.^[Although in all fairness, a lot of that can be attributed to my instinctive desire to have everything perfectly polished before showing it to anybody.] It took me the better part of a Sunday, even with having familiarized myself with the topic a bit beforehand; and I ended up having to realize that, even if it's not perfect, it would be better to get started with *something* rather than getting everything *just* the way I wanted it, and taking **forever** at it. Perhaps I'll cover the process in more detail in future posts.
+
+Right now though, I'm excited to get started with some R topics. After hearing that [Hadley Wickham](https://twitter.com/hadleywickham) is working on a [second edition of his Advanced R book](https://adv-r.hadley.nz/), I've been going over the material again -- and having a great time with it. So expect posts coming up in the near future, where I work through some of the problems included in the book!^[While also exploring what Hugo and R Markdown can do.]
