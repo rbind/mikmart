@@ -1,0 +1,10 @@
+---
+title: Getting started, with blogdown
+author: Mikko Marttila
+date: '2018-02-11'
+slug: getting-started-with-blogdown
+categories: []
+tags: []
+---
+
+For a while now, I've been thinking about starting a blog.
