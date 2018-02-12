@@ -23,7 +23,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     url = "https://twitter.com/mikkomarttila"
 
 [params]
-    description = "A website built through Hugo and blogdown."
+    description = "Thoughts and notes on R, statistics, and programming."
 
     # options for highlight.js (version, additional languages, and theme)
     highlightjsVersion = "9.11.0"
