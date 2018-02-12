@@ -1,6 +1,7 @@
 ---
 title: "About"
 date: "2018-02-11"
+disable_comments: true
 ---
 
 # Me
