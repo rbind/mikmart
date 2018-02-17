@@ -75,7 +75,7 @@ tags:
 <p>And then try it out with some simple distributions:</p>
 <pre class="r"><code>find_mean(dexp, rate = 2)</code></pre>
 <pre><code>## 0.5 with absolute error &lt; 8.6e-06</code></pre>
-<p>But it could also be useful to generalise a bit, and create a <em>function factory</em> instead. That would be a good way to avoid duplicating code if we wanted to find other moments, or indeed expceted values of transformations. The idea is to make a function that, given a transformation function, will return another function that finds the expected value of that transformation of a random variable:</p>
+<p>But it could also be useful to generalise a bit, and create a <em>function factory</em> instead. That would be a good way to avoid duplicating code if we wanted to find other moments, or indeed expected values of transformations. The idea is to make a function that, given a transformation function, will return another function that finds the expected value of that transformation of a random variable:</p>
 <pre class="r"><code>ev_finder &lt;- function(transform = identity) {
   function(f, ..., from = -Inf, to = Inf) {
     integrate(function(x) transform(x) * f(x, ...), from, to)

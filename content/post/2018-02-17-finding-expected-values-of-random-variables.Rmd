@@ -139,7 +139,7 @@ And then try it out with some simple distributions:
 find_mean(dexp, rate = 2)
 ```
 
-But it could also be useful to generalise a bit, and create a _function factory_ instead. That would be a good way to avoid duplicating code if we wanted to find other moments, or indeed expceted values of transformations. The idea is to make a function that, given a transformation function, will return another function that finds the expected value of that transformation of a random variable:
+But it could also be useful to generalise a bit, and create a _function factory_ instead. That would be a good way to avoid duplicating code if we wanted to find other moments, or indeed expected values of transformations. The idea is to make a function that, given a transformation function, will return another function that finds the expected value of that transformation of a random variable:
 
 ```{r}
 ev_finder <- function(transform = identity) {
