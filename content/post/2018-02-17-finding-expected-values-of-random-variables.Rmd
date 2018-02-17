@@ -1,0 +1,187 @@
+---
+title: Finding expected values of random variables in R
+author: Mikko Marttila
+date: '2018-02-17'
+slug: finding-expected-values-of-random-variables
+categories:
+  - r
+tags:
+  - functional-programming
+  - probability
+  - statistics
+---
+
+Today, I [answered a StackOverflow question](https://stackoverflow.com/a/48840012/4550695) where the author was implementing a function for finding the mean of a continuous random variable, given its [probability density function](https://en.wikipedia.org/wiki/Probability_density_function) (PDF).
+
+In the process of writing up my answer, I wound up applying some functional programming techniques (specifically [function factories](https://adv-r.hadley.nz/functional-programming.html#function-factories9)). I also ended up exploring the problem quite far outside the scope of the original question, so I thought the full story would make more sense as a blog post -- so here we are!
+
+We'll be going through a simple R implementation for finding the expected value for any transformation of a random variable.
+
+# Some maths {#maths}
+
+(Feel free to [skip ahead](#meat) if you're allergic to maths! It's not long though.)
+
+## Expected values
+
+I'm going to assume that you are already familiar with the concepts of random variables and probability density functions, so I'm not going to go over them here. However, as expected values are at the core of this post, I think it's worth refreshing the mathematical definition of an expected value.
+
+Let $X$ be a continuous random variable with a probability density function $f_X: S \to \mathbb{R}$ where $S \subseteq \mathbb{R}$. Now, the _expected value_ of $X$ is defined as:
+
+$$ \mathbb{E}(X) = \int_S x f_X(x) dx. $$
+For a transformation of $X$ given by the function $g$ this generalises to:
+
+$$ \mathbb{E}(g(X)) = \int_S g(x) f_X(x) dx. $$ 
+
+They key point here is that finding expected values involves integrating the PDF of the random variable, scaled in some way.
+
+## Moments
+
+_Moments_ in maths are defined with a strikingly similar formula to that of expected values of transformations of random variables. The $n$th moment of a real-valued function $f$ about point $c$ is given by: 
+
+$$ \int_\mathbb{R} (x - c)^n f(x) dx. $$ 
+
+In fact, moments are especially useful in the context of random variables: recalling that  $\text{Var}(X) = \mathbb{E}((X-\mu)^2)$^[So given $g$ such that $g(x) = (x - \mu)^2$ we can write $\text{Var}(X)$ as the expected value of a transformed $X$: $\text{Var}(X) = \mathbb{E}(g(X))$], it's easy to see that the mean $\mu$ and variance $\sigma^2$ of a random variable $X$ are given by the first moment and the second _central moment_^[Moments where $c = \mathbb{E}(X)$ are called central moments.] of its probability density function $f_X$. That is:
+
+$$ \mu = \int_\mathbb{R} (x - 0)^1 f_X(x) dx, $$
+and 
+$$ \sigma^2 = \int_\mathbb{R} (x - \mu)^2 f_X(x) dx. $$ 
+
+Other properties of distributions (such as [_skewness_](https://en.wikipedia.org/wiki/Skewness)) can also be defined with moments, but they're not that interesting, really. You can [read up on that](https://en.wikipedia.org/wiki/Moment_(mathematics)), though, if you're into that sort of thing.
+
+# Finding expected values {#meat}
+
+## Analytically
+
+Yes, this can, of course, be done! (For many distributions at least.) But that's not what we're here for today. So let's just... move right along in an orderly fashion.
+
+## Numerically
+
+Like we covered in the [maths bit](#maths), finding expected values involves finding values of definite integrals. That means that the problem can be solved computationally with the use of _numerical integration_ methods.
+
+### Numerical integration
+
+We could write our own function to do just that. In R, a bare-bones implementation of numerical integration would look something like this:
+
+```{r own-fun}
+integrate_numerically <- function(f, a, b, n = 20) {
+  dx <- (b - a) / n
+  x <- seq(a, b - dx, dx)
+  sum(f(x) * dx)
+}
+```
+
+This function finds the area under a curve $f$, between points $a$ and $b$, by splitting the interval $[a,b]$ into $n$ smaller "sub-intervals", and then approximating the area in each sub-interval with the area of a rectangle.
+
+For each sub-interval, the approximating rectangle has width equal to the width of the sub-interval, or "$dx$", and height equal to the value of the function $f$ evaluated at the starting point of the sub-interval.
+
+Here's a quick diagram^[If you want to see the R code I used to create this plot, check out the [R Markdown source document](https://github.com/mikmart/mikkomarttila/blob/master/content/post/2018-02-17-finding-expected-values-of-random-variables.Rmd) for this post on GitHub!] to illustrate:
+
+```{r norm-approx, message = F, echo = F, fig.height = 3}
+library(tidyverse)
+
+n <- 20
+b <- 1.96
+a <- -b
+
+dx <- (b - a) / n
+x <- seq(a, b - dx, dx)
+fx <- dnorm(x)
+
+approx <- tibble(x, fx)
+smooth <- tibble(x = seq(-4, 4, .1), fx = dnorm(x))
+
+i <- 7
+highlight <- approx[i, ]
+
+ggplot(approx, aes(x, fx)) +
+  geom_hline(yintercept = 0, color = "grey") +
+  geom_vline(xintercept = c(a, b), lty = 2) +
+  annotate("text", label = c("a", "b"), c(a - dx, b + dx), Inf, vjust = 2) +
+  geom_line(data = smooth) +
+  geom_col(aes(x + dx / 2), width = dx, col = 'dodgerblue', fill = NA) +
+  geom_col(data = highlight, aes(x + dx / 2), width = dx,
+           col = 'dodgerblue', fill = 'dodgerblue', alpha = 0.5) +
+  annotate("text", label = "f(x)", x[i], fx[i] + .01, hjust = 1.2) + 
+  annotate("text", label = "dx", x[i] + dx / 2, -.02) + 
+  coord_cartesian(xlim = c(-3, 3)) +
+  theme_void()
+```
+
+```{r int-value}
+integrate_numerically(dnorm, -1.96, 1.96)
+```
+
+Fortunately we don't have to be content with that. Since numerical integration is an important computational tool that comes up in many applications, smarter people already thought about it more carefully, and implemented the [`integrate` function](https://stat.ethz.ch/R-manual/R-devel/library/stats/html/integrate.html). (It does numerical integration too, but better.) Our implementation isn't _awful_ for this specific problem, but it could be a lot more efficient.
+
+```{r compare-ints}
+integrate(dnorm, -1.96, 1.96)
+```
+
+### Expected values with numerical integration
+
+Well, we _eventually_ made it here! The point is that based on the formula presented earlier in the [maths bit](#maths), we can use `integrate` to find the expected value of a random variable, or a transformation of one, given the PDF of the random variable.
+
+```{r}
+integrate(function(x) x * dnorm(x, mean = 5), -Inf, Inf)
+```
+
+We could wrap this in a function for finding the mean:
+
+```{r}
+find_mean <- function(f, ..., from = -Inf, to = Inf) {
+  integrate(function(x) x * f(x, ...), from, to)
+}
+```
+
+And then try out the implementation on some simple distributions:
+
+```{r}
+find_mean(dexp, rate = 2)
+```
+
+But it could also be useful to generalise a bit, and create a _function factory_ instead. The idea is to make a function that, given a transformation function, will return another function that finds the expected value of the transformation of a random variable:
+
+```{r}
+ev_finder <- function(transform = identity) {
+  function(f, ..., from = -Inf, to = Inf) {
+    integrate(function(x) transform(x) * f(x, ...), from, to)
+  }
+}
+```
+
+Since we know that finding moments can be seen as a special case of expected values of transformations, we can wrap `ev_finder` here to define _another_ function factory, this time for easy generation of functions to find moments.
+
+```{r}
+moment_finder <- function(n, c = 0) {
+  ev_finder(function(x) (x - c) ^ n)
+}
+```
+
+Then, using `moment_finder`, we could define `find_mean` from before with one line. But `moment_finder` also makes it simple to define a function to find the variance (i.e. the second central moment):
+
+```{r}
+find_mean <- moment_finder(1)
+find_variance <- function(f, ...) {
+  c <- find_mean(f, ...)$value
+  moment_finder(2, c)(f, ...)
+}
+```
+
+And again, we can try it out on some distributions:
+
+```{r}
+find_variance(dnorm, mean = 2, sd = 2)
+find_variance(dexp, rate = 1 / 4)
+```
+
+There we go! Expected values for random variables and transformations -- sorted.
+
+## Or are they...
+
+Now to be clear, this implementation of finding expected values isn't perfect. To be honest, it's actually _kind of rubbish_. Among other issues, it fails quite quickly with even slightly larger means^[Actually, the issue seems to pop up when the mean and variance are too far apart, as `find_mean(dnorm, mean = 20, sd = 2)` works fine.]:
+
+```{r}
+find_mean(dnorm, mean = 20)
+```
+
+So, it's clear that we won't be using this exact implementation of this method for any serious applications. But I think the process illustrates the benefits of function factories for generalisations quite well. And I had a lot of fun writing this post!
