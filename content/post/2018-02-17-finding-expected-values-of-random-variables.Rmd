@@ -13,7 +13,7 @@ tags:
 
 Today, I [answered a StackOverflow question](https://stackoverflow.com/a/48840012/4550695) where the author was implementing a function for finding the mean of a continuous random variable, given its [probability density function](https://en.wikipedia.org/wiki/Probability_density_function) (PDF).
 
-In the process of writing up my answer, I wound up applying some functional programming techniques (specifically [function factories](https://adv-r.hadley.nz/functional-programming.html#function-factories9)). I also ended up exploring the problem quite far outside the scope of the original question, so I thought the full story would make more sense as a blog post -- so here we are!
+In the process of writing up my answer, I ended up applying some functional programming techniques (specifically [function factories](https://adv-r.hadley.nz/functional-programming.html#function-factories9)). I also found myself exploring the problem quite far outside the scope of the original question, so I thought the full story would make more sense as a blog post -- so here we are!
 
 We'll be going through a simple R implementation for finding the expected value for any transformation of a random variable.
 
@@ -40,7 +40,7 @@ _Moments_ in maths are defined with a strikingly similar formula to that of expe
 
 $$ \int_\mathbb{R} (x - c)^n f(x) dx. $$ 
 
-In fact, moments are especially useful in the context of random variables: recalling that  $\text{Var}(X) = \mathbb{E}((X-\mu)^2)$^[So given $g$ such that $g(x) = (x - \mu)^2$ we can write $\text{Var}(X)$ as the expected value of a transformed $X$: $\text{Var}(X) = \mathbb{E}(g(X))$], it's easy to see that the mean $\mu$ and variance $\sigma^2$ of a random variable $X$ are given by the first moment and the second _central moment_^[Moments where $c = \mathbb{E}(X)$ are called central moments.] of its probability density function $f_X$. That is:
+In fact, moments are especially useful in the context of random variables: recalling that  $\text{Var}(X) = \mathbb{E}((X-\mu)^2)$^[So given $g$ such that $g(x) = (x - \mu)^2$ we can write $\text{Var}(X)$ as the expected value of a transformed $X$: $\text{Var}(X) = \mathbb{E}(g(X))$], it's easy to see that the mean $\mu$ and variance $\sigma^2$ of a random variable $X$ are given by the first moment and the second _central moment_^[Moments where $c = \mathbb{E}(X)$ are called central moments.] of its PDF $f_X$. That is:
 
 $$ \mu = \int_\mathbb{R} (x - 0)^1 f_X(x) dx, $$
 and 
@@ -52,7 +52,7 @@ Other properties of distributions (such as [_skewness_](https://en.wikipedia.org
 
 ## Analytically
 
-Yes, this can, of course, be done! (For many distributions at least.) But that's not what we're here for today. So let's just... move right along in an orderly fashion.
+Yes, this can, of course, be done! (For many distributions at least.) But that's not what we're here for today. So let's just... move right along, in an orderly fashion.
 
 ## Numerically
 
@@ -119,7 +119,7 @@ integrate(dnorm, -1.96, 1.96)
 
 ### Expected values with numerical integration
 
-Well, we _eventually_ made it here! The point is that based on the formula presented earlier in the [maths bit](#maths), we can use `integrate` to find the expected value of a random variable, or a transformation of one, given the PDF of the random variable.
+Well, we _eventually_ made it here! The point that we've been slowly approaching here is: that based on the formulae presented earlier in the [maths bit](#maths), we can use `integrate` to find the expected value of a random variable, or a transformation of one, given its PDF. Here's how:
 
 ```{r}
 integrate(function(x) x * dnorm(x, mean = 5), -Inf, Inf)
@@ -133,13 +133,13 @@ find_mean <- function(f, ..., from = -Inf, to = Inf) {
 }
 ```
 
-And then try out the implementation on some simple distributions:
+And then try it out with some simple distributions:
 
 ```{r}
 find_mean(dexp, rate = 2)
 ```
 
-But it could also be useful to generalise a bit, and create a _function factory_ instead. The idea is to make a function that, given a transformation function, will return another function that finds the expected value of the transformation of a random variable:
+But it could also be useful to generalise a bit, and create a _function factory_ instead. That would be a good way to avoid duplicating code if we wanted to find other moments, or indeed expceted values of transformations. The idea is to make a function that, given a transformation function, will return another function that finds the expected value of that transformation of a random variable:
 
 ```{r}
 ev_finder <- function(transform = identity) {
@@ -149,7 +149,7 @@ ev_finder <- function(transform = identity) {
 }
 ```
 
-Since we know that finding moments can be seen as a special case of expected values of transformations, we can wrap `ev_finder` here to define _another_ function factory, this time for easy generation of functions to find moments.
+Since we know that finding moments of PDFs can be seen as a special case of expected values of transformations, we can wrap `ev_finder` here to define _another_ function factory, this time for easy generation of functions to find moments.
 
 ```{r}
 moment_finder <- function(n, c = 0) {
@@ -162,8 +162,8 @@ Then, using `moment_finder`, we could define `find_mean` from before with one li
 ```{r}
 find_mean <- moment_finder(1)
 find_variance <- function(f, ...) {
-  c <- find_mean(f, ...)$value
-  moment_finder(2, c)(f, ...)
+  mu <- find_mean(f, ...)$value
+  moment_finder(2, mu)(f, ...)
 }
 ```
 

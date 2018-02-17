@@ -14,7 +14,7 @@ tags:
 
 
 <p>Today, I <a href="https://stackoverflow.com/a/48840012/4550695">answered a StackOverflow question</a> where the author was implementing a function for finding the mean of a continuous random variable, given its <a href="https://en.wikipedia.org/wiki/Probability_density_function">probability density function</a> (PDF).</p>
-<p>In the process of writing up my answer, I wound up applying some functional programming techniques (specifically <a href="https://adv-r.hadley.nz/functional-programming.html#function-factories9">function factories</a>). I also ended up exploring the problem quite far outside the scope of the original question, so I thought the full story would make more sense as a blog post – so here we are!</p>
+<p>In the process of writing up my answer, I ended up applying some functional programming techniques (specifically <a href="https://adv-r.hadley.nz/functional-programming.html#function-factories9">function factories</a>). I also found myself exploring the problem quite far outside the scope of the original question, so I thought the full story would make more sense as a blog post – so here we are!</p>
 <p>We’ll be going through a simple R implementation for finding the expected value for any transformation of a random variable.</p>
 <div id="maths" class="section level1">
 <h1>Some maths</h1>
@@ -31,7 +31,7 @@ tags:
 <h2>Moments</h2>
 <p><em>Moments</em> in maths are defined with a strikingly similar formula to that of expected values of transformations of random variables. The <span class="math inline">\(n\)</span>th moment of a real-valued function <span class="math inline">\(f\)</span> about point <span class="math inline">\(c\)</span> is given by:</p>
 <p><span class="math display">\[ \int_\mathbb{R} (x - c)^n f(x) dx. \]</span></p>
-<p>In fact, moments are especially useful in the context of random variables: recalling that <span class="math inline">\(\text{Var}(X) = \mathbb{E}((X-\mu)^2)\)</span><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>, it’s easy to see that the mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span> of a random variable <span class="math inline">\(X\)</span> are given by the first moment and the second <em>central moment</em><a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> of its probability density function <span class="math inline">\(f_X\)</span>. That is:</p>
+<p>In fact, moments are especially useful in the context of random variables: recalling that <span class="math inline">\(\text{Var}(X) = \mathbb{E}((X-\mu)^2)\)</span><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>, it’s easy to see that the mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span> of a random variable <span class="math inline">\(X\)</span> are given by the first moment and the second <em>central moment</em><a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> of its PDF <span class="math inline">\(f_X\)</span>. That is:</p>
 <p><span class="math display">\[ \mu = \int_\mathbb{R} (x - 0)^1 f_X(x) dx, \]</span> and <span class="math display">\[ \sigma^2 = \int_\mathbb{R} (x - \mu)^2 f_X(x) dx. \]</span></p>
 <p>Other properties of distributions (such as <a href="https://en.wikipedia.org/wiki/Skewness"><em>skewness</em></a>) can also be defined with moments, but they’re not that interesting, really. You can <a href="https://en.wikipedia.org/wiki/Moment_(mathematics)">read up on that</a>, though, if you’re into that sort of thing.</p>
 </div>
@@ -40,7 +40,7 @@ tags:
 <h1>Finding expected values</h1>
 <div id="analytically" class="section level2">
 <h2>Analytically</h2>
-<p>Yes, this can, of course, be done! (For many distributions at least.) But that’s not what we’re here for today. So let’s just… move right along in an orderly fashion.</p>
+<p>Yes, this can, of course, be done! (For many distributions at least.) But that’s not what we’re here for today. So let’s just… move right along, in an orderly fashion.</p>
 </div>
 <div id="numerically" class="section level2">
 <h2>Numerically</h2>
@@ -65,31 +65,31 @@ tags:
 </div>
 <div id="expected-values-with-numerical-integration" class="section level3">
 <h3>Expected values with numerical integration</h3>
-<p>Well, we <em>eventually</em> made it here! The point is that based on the formula presented earlier in the <a href="#maths">maths bit</a>, we can use <code>integrate</code> to find the expected value of a random variable, or a transformation of one, given the PDF of the random variable.</p>
+<p>Well, we <em>eventually</em> made it here! The point that we’ve been slowly approaching here is: that based on the formulae presented earlier in the <a href="#maths">maths bit</a>, we can use <code>integrate</code> to find the expected value of a random variable, or a transformation of one, given its PDF. Here’s how:</p>
 <pre class="r"><code>integrate(function(x) x * dnorm(x, mean = 5), -Inf, Inf)</code></pre>
 <pre><code>## 5 with absolute error &lt; 6e-05</code></pre>
 <p>We could wrap this in a function for finding the mean:</p>
 <pre class="r"><code>find_mean &lt;- function(f, ..., from = -Inf, to = Inf) {
   integrate(function(x) x * f(x, ...), from, to)
 }</code></pre>
-<p>And then try out the implementation on some simple distributions:</p>
+<p>And then try it out with some simple distributions:</p>
 <pre class="r"><code>find_mean(dexp, rate = 2)</code></pre>
 <pre><code>## 0.5 with absolute error &lt; 8.6e-06</code></pre>
-<p>But it could also be useful to generalise a bit, and create a <em>function factory</em> instead. The idea is to make a function that, given a transformation function, will return another function that finds the expected value of the transformation of a random variable:</p>
+<p>But it could also be useful to generalise a bit, and create a <em>function factory</em> instead. That would be a good way to avoid duplicating code if we wanted to find other moments, or indeed expceted values of transformations. The idea is to make a function that, given a transformation function, will return another function that finds the expected value of that transformation of a random variable:</p>
 <pre class="r"><code>ev_finder &lt;- function(transform = identity) {
   function(f, ..., from = -Inf, to = Inf) {
     integrate(function(x) transform(x) * f(x, ...), from, to)
   }
 }</code></pre>
-<p>Since we know that finding moments can be seen as a special case of expected values of transformations, we can wrap <code>ev_finder</code> here to define <em>another</em> function factory, this time for easy generation of functions to find moments.</p>
+<p>Since we know that finding moments of PDFs can be seen as a special case of expected values of transformations, we can wrap <code>ev_finder</code> here to define <em>another</em> function factory, this time for easy generation of functions to find moments.</p>
 <pre class="r"><code>moment_finder &lt;- function(n, c = 0) {
   ev_finder(function(x) (x - c) ^ n)
 }</code></pre>
 <p>Then, using <code>moment_finder</code>, we could define <code>find_mean</code> from before with one line. But <code>moment_finder</code> also makes it simple to define a function to find the variance (i.e. the second central moment):</p>
 <pre class="r"><code>find_mean &lt;- moment_finder(1)
 find_variance &lt;- function(f, ...) {
-  c &lt;- find_mean(f, ...)$value
-  moment_finder(2, c)(f, ...)
+  mu &lt;- find_mean(f, ...)$value
+  moment_finder(2, mu)(f, ...)
 }</code></pre>
 <p>And again, we can try it out on some distributions:</p>
 <pre class="r"><code>find_variance(dnorm, mean = 2, sd = 2)</code></pre>
