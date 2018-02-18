@@ -2,8 +2,11 @@ baseurl = "/"
 languageCode = "en-uk"
 title = "Mikko Marttila"
 theme = "hugo-lithium-theme"
+enableEmoji = true
+
 googleAnalytics = "UA-114048683-1"
 disqusShortname = "mikkomarttila"
+
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [permalinks]
