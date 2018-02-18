@@ -74,7 +74,7 @@ This function finds the area under a curve $f$, between points $a$ and $b$, by s
 
 For each sub-interval, the approximating rectangle has width equal to the width of the sub-interval, or "$dx$", and height equal to the value of the function $f$ evaluated at the starting point of the sub-interval.
 
-Here's a quick diagram^[If you want to see the R code I used to create this plot, check out the [R Markdown source document](https://github.com/mikmart/mikkomarttila/blob/master/content/post/2018-02-17-finding-expected-values-of-random-variables.Rmd) for this post on GitHub!] to illustrate:
+Here's a quick diagram^[If you want to see the R code I used to create this plot, check out the [R Markdown source document](https://github.com/mikmart/mikkomarttila/blob/master/content/post/2018-02-17-finding-expected-values-of-random-variables.Rmd#numerical-integration) for this post on GitHub!] to illustrate:
 
 ```{r approx-plot, message = F, echo = F, fig.height = 3, out.width = "100%"}
 library(ggplot2)
