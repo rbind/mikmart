@@ -76,33 +76,40 @@ For each sub-interval, the approximating rectangle has width equal to the width 
 
 Here's a quick diagram^[If you want to see the R code I used to create this plot, check out the [R Markdown source document](https://github.com/mikmart/mikkomarttila/blob/master/content/post/2018-02-17-finding-expected-values-of-random-variables.Rmd) for this post on GitHub!] to illustrate:
 
-```{r norm-approx, message = F, echo = F, fig.height = 3}
-library(tidyverse)
+```{r approx-plot, message = F, echo = F, fig.height = 3, out.width = "100%"}
+library(ggplot2)
 
-n <- 20
+# Approximation parameters
+f <- dnorm
 b <- 1.96
 a <- -b
+n <- 20
 
 dx <- (b - a) / n
-x <- seq(a, b - dx, dx)
-fx <- dnorm(x)
 
-approx <- tibble(x, fx)
-smooth <- tibble(x = seq(-4, 4, .1), fx = dnorm(x))
+# Approximated values
+xa <- seq(a, b - dx, dx)
+xs <- seq(a - 2, b + 2, dx / 10)
 
-i <- 7
-highlight <- approx[i, ]
+approx <- data.frame(x = xa, fx = f(xa))
+smooth <- data.frame(x = xs, fx = f(xs))
+
+color <- "dodgerblue"
+atext <- function(x, ...) annotate("text", label = x, ...)
+
+# Highlight a single rectangle
+highlight <- approx[7, ]
 
 ggplot(approx, aes(x, fx)) +
   geom_hline(yintercept = 0, color = "grey") +
   geom_vline(xintercept = c(a, b), lty = 2) +
-  annotate("text", label = c("a", "b"), c(a - dx, b + dx), Inf, vjust = 2) +
   geom_line(data = smooth) +
-  geom_col(aes(x + dx / 2), width = dx, col = 'dodgerblue', fill = NA) +
-  geom_col(data = highlight, aes(x + dx / 2), width = dx,
-           col = 'dodgerblue', fill = 'dodgerblue', alpha = 0.5) +
-  annotate("text", label = "f(x)", x[i], fx[i] + .01, hjust = 1.2) + 
-  annotate("text", label = "dx", x[i] + dx / 2, -.02) + 
+  geom_col(aes(x + dx / 2), width = dx, col = color, fill = NA) +
+  geom_col(aes(x + dx / 2), width = dx, col = color,
+           data = highlight, fill = color, alpha = 0.5) +
+  atext(c("a", "b"), c(a - dx, b + dx), Inf, vjust = 2) +
+  atext("f(x)", highlight$x, highlight$fx + .01, hjust = 1.2) + 
+  atext("dx", highlight$x + dx / 2, -.02) + 
   coord_cartesian(xlim = c(-3, 3)) +
   theme_void()
 ```

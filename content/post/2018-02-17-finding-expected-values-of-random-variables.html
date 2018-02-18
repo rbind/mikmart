@@ -56,7 +56,7 @@ tags:
 <p>This function finds the area under a curve <span class="math inline">\(f\)</span>, between points <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, by splitting the interval <span class="math inline">\([a,b]\)</span> into <span class="math inline">\(n\)</span> smaller “sub-intervals”, and then approximating the area in each sub-interval with the area of a rectangle.</p>
 <p>For each sub-interval, the approximating rectangle has width equal to the width of the sub-interval, or “<span class="math inline">\(dx\)</span>”, and height equal to the value of the function <span class="math inline">\(f\)</span> evaluated at the starting point of the sub-interval.</p>
 <p>Here’s a quick diagram<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> to illustrate:</p>
-<p><img src="/post/2018-02-17-finding-expected-values-of-random-variables_files/figure-html/norm-approx-1.png" width="672" /></p>
+<p><img src="/post/2018-02-17-finding-expected-values-of-random-variables_files/figure-html/approx-plot-1.png" width="100%" /></p>
 <pre class="r"><code>integrate_numerically(dnorm, -1.96, 1.96)</code></pre>
 <pre><code>## [1] 0.9492712</code></pre>
 <p>Fortunately we don’t have to be content with that. Since numerical integration is an important computational tool that comes up in many applications, smarter people already thought about it more carefully, and implemented the <a href="https://stat.ethz.ch/R-manual/R-devel/library/stats/html/integrate.html"><code>integrate</code> function</a>. (It does numerical integration too, but better.) Our implementation isn’t <em>awful</em> for this specific problem, but it could be a lot more efficient.</p>
