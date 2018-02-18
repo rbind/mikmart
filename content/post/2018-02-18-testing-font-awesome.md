@@ -10,7 +10,7 @@ tags:
   - random
 ---
 
-When googling... something^[What it was exactly persistently eludes me.] **blogdown** related, I stumbled onto some [slides from an R-Ladies workshop](https://alison.rbind.io/slides/blogdown-workshop-slides.html), where [Alison Persmanes Hill](https://alison.rbind.io) goes through the process of setting up a website with **blogdown** and Hugo. The running example in the slides is the set up of a [website for the R-Ladies Portland chapter](http://rladies-pdx.rbind.io/), and I can assure you that the slides serve as a great tutorial for getting into **blogdown**, even without being actively presented by Alison! 
+When googling... something^[What exactly it was persistently eludes me.] **blogdown** related, I stumbled onto some [slides from an R-Ladies workshop](https://alison.rbind.io/slides/blogdown-workshop-slides.html), where [Alison Persmanes Hill](https://alison.rbind.io) goes through the process of setting up a website with **blogdown** and Hugo. The running example in the slides is the set up of a [website for the R-Ladies Portland chapter](http://rladies-pdx.rbind.io/), and I can assure you that the slides serve as a great tutorial for getting into **blogdown**, even without being actively presented by Alison! 
 
 # <i class = "fab fa-font-awesome-alt fa-lg"></i> Icons!
 
@@ -38,7 +38,7 @@ So, to fix my issue, and include icons in the navigation bar, I just had to make
 ```
 
 
-And, as you can tell, now everything works! :tada:^[Yup, [emojis too](https://alison.rbind.io/slides/blogdown-workshop-slides.html#54)! [Only for `.md` though, not for `.Rmd`.](https://github.com/rstudio/blogdown/issues/171)] Happy times. :grin:
+And, as you can tell, now everything works! :tada:^[Yup, [emojis (... emoji? I don't know.) too](https://alison.rbind.io/slides/blogdown-workshop-slides.html#54)! [Only for plain Markdown though, not for R Markdown.](https://github.com/rstudio/blogdown/issues/171)] Happy times. :grin:
 
 ### In memoriam
 
