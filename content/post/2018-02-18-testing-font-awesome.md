@@ -42,7 +42,7 @@ And, as you can tell, now everything works! :tada:^[Yup, [emojis (... emoji? I d
 
 ### In memoriam
 
-And finally, here's a little memorial to my initial testing to see how I could include icons to these posts:
+And finally, here's a little memorial to my initial testing to see how I could include the Font Awesome icons in these posts:
 
 > <i class="fas fa-camera-retro"></i>
 > <i class='fab fa-github-square'></i>
