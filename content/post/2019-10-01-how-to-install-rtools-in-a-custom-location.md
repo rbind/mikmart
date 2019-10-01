@@ -14,12 +14,12 @@ Today, I needed to update the version of [Rtools](https://cran.r-project.org/bin
 
 ## RTFM
 
-The `Rtools.txt` file that comes with the installer is pretty clear about the requirements:
+A goo place to start is the manual. The `Rtools.txt` file that comes with the installer is pretty clear about the requirements:
 
 1. Add `Rtools\bin` to your system `PATH` environment variable.
-2. Tell R where to find the compilers with the `BINPREF` environment variable.
+2. Tell R where to find the compilers with `BINPREF`.
 
-An example for setting `BINPREF` is also given:
+An example for setting the `BINPREF` environment variable is also given:
 
 ```
 BINPREF="M:/R/Rtools-3.5/mingw_$(WIN)/bin/"
@@ -29,10 +29,10 @@ With an explanation:
 
 > Note how we embed another variable $(WIN) which is set by R to either "32" or "64" depending on the target. Thereby this BINPREF works for both architectures. Also note that R requires forward slashes here.
 
-Knowing two additional pieces of information would have saved me quite a bit of time:
+There's two additional pieces of information I wish I had known:
 
-1. The trailing forward slash **must** be there.
-2. The path **must not** have spaces in it.
+1. The path **must not** have spaces in it.
+2. The trailing forward slash **must** be there.
 
 ## Debug
 
@@ -42,7 +42,7 @@ The `BINPREF` I was originally trying to use looked like this:
 BINPREF="C:/Program Files/R/Rtools-3.5/mingw_$(WIN)/bin"
 ```
 
-Running `pkgbuild::has_compiler(debug = TRUE)` gave me, among other things:
+Running `pkgbuild::has_compiler(debug = TRUE)` gave me:
 
 ```
 /usr/bin/sh: C:/Program: No such file or directory
@@ -55,20 +55,20 @@ shortPathName("C:/Program Files/R/Rtools-3.5")
 #> [1] "C:\\PROGRA~1\\R\\Rtools-3.5"
 ```
 
-With my updated `BINPREF` in hand, I not got a new error from `has_compiler()`:
+With my updated `BINPREF` in hand, I was faced with a new error:
 
 ```
 /usr/bin/sh: C:/PROGRA~1/R/Rtools-3.5/mingw_64/bingcc: No such file or directory
 ```
 
-After a bit of staring, I saw that the name of the compiler was just concatenated to the path witout a separator. It was trying to find a folder named `bingcc` rather than a file named `gcc` in the `bin` folder. Added the trailing forward slash to `BINPREF`, and it works.
+After a bit of staring, I noticed that the name of the compiler was just concatenated to the path witout a separator. It was trying to find a folder named `bingcc` rather than a file named `gcc` in the `bin` folder. Added the trailing forward slash to `BINPREF`, and it works.
 
 ``` r
 pkgbuild::has_devel()
 #> Your system is ready to build packages!
 ```
 
-Fantastic!
+Fantastic! :tada:
 
 ## Success
 
