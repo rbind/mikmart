@@ -14,7 +14,7 @@ Today, I needed to update the version of [Rtools](https://cran.r-project.org/bin
 
 ## RTFM
 
-A goo place to start is the manual. The `Rtools.txt` file that comes with the installer is pretty clear about the requirements:
+The manual is a good place to start. The `Rtools.txt` file that comes with the installer is pretty clear about the requirements:
 
 1. Add `Rtools\bin` to your system `PATH` environment variable.
 2. Tell R where to find the compilers with `BINPREF`.
