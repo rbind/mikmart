@@ -4,9 +4,6 @@ title = "Mikko Marttila"
 theme = "hugo-lithium-theme"
 enableEmoji = true
 
-googleAnalytics = "UA-114048683-1"
-disqusShortname = "mikkomarttila"
-
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 [permalinks]
@@ -29,12 +26,6 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     pre = "<i class='fab fa-linkedin fa-lg'></i>"
     url = "https://www.linkedin.com/in/mikmart/"
     weight = 3
-[[menu.main]]
-    name = " "
-    identifier = "twitter"
-    pre = "<i class='fab fa-twitter fa-lg'></i>"
-    url = "https://twitter.com/mikkomarttila"
-    weight = 4
 
 [params]
     description = "Thoughts and notes on R, statistics, and programming."
@@ -49,8 +40,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     MathJaxVersion = "2.7.1"
 
     [params.logo]
-    url = "logo.png"
+    url = "profile.jpg"
     width = 50
     height = 50
     alt = "Logo"
-
