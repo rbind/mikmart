@@ -3,6 +3,7 @@ languageCode = "en-us"
 theme = "hugo-theme-hello-friend"
 paginate = 3
 enableEmoji = true
+summaryLength = 30
 
 [permalinks]
     post = "/:year/:month/:day/:slug/"
@@ -32,7 +33,7 @@ enableEmoji = true
     minuteReadingTime = "min read"
     dateFormatSingle = "2006-01-02"
     dateFormatList = "2006-01-02"
-
+    
     [languages.en.params.logo]
       logoText = "mikko marttila"
       logoHomeLink = "/"
@@ -43,13 +44,14 @@ enableEmoji = true
 
     [languages.en.menu]
       [[languages.en.menu.main]]
+        identifier = "archive"
+        name = "Archive"
+        url = "/archive"
+        weight = 2
+      [[languages.en.menu.main]]
         identifier = "about"
         name = "About"
         url = "/about"
-      [[languages.en.menu.main]]
-        identifier = "github"
-        name = "GitHub"
-        url = "https://github.com/mikmart"
 
 [markup]
   defaultMarkdownHandler = "goldmark"

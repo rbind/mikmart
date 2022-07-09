@@ -2,6 +2,7 @@
 title: "How to: Install Rtools in a custom location"
 author: Mikko Marttila
 date: '2019-10-01'
+lastmod: '2022-01-01'
 slug: how-to-install-rtools-in-a-custom-location
 categories:
   - r
