@@ -1,46 +1,44 @@
 baseurl = "/"
-languageCode = "en-uk"
-title = "Mikko Marttila"
-theme = "hugo-lithium-theme"
-enableEmoji = true
-
-ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
-
-[permalinks]
-    post = "/:year/:month/:day/:slug/"
-
-[[menu.main]]
-    name = "About"
-    pre = ""
-    url = "/about/"
-    weight = -1
-[[menu.main]]
-    name = " "
-    identifier = "github"
-    pre = "<i class='fab fa-github fa-lg'></i>"
-    url = "https://github.com/mikmart/"
-    weight = 2
-[[menu.main]]
-    name = " "
-    identifier = "linkedin"
-    pre = "<i class='fab fa-linkedin fa-lg'></i>"
-    url = "https://www.linkedin.com/in/mikmart/"
-    weight = 3
+languageCode = "en-us"
+theme = "hugo-theme-hello-friend"
+paginate = 5
 
 [params]
-    description = "Thoughts and notes on R, statistics, and programming."
+  # dir name of your blog content (default is `content/posts`)
+  contentTypeName = "post"
+  # "light" or "dark"
+  defaultTheme = "dark"
+  # if you set this to 0, only submenu trigger will be visible
+  showMenuItems = 2
+  # Enable to show reading time in minutes for posts
+  showReadingTime = true
 
-    # options for highlight.js (version, additional languages, and theme)
-    highlightjsVersion = "9.11.0"
-    highlightjsCDN = "//cdn.bootcss.com"
-    highlightjsLang = ["r", "yaml"]
-    highlightjsTheme = "github"
+[languages]
+  [languages.en]
+    title = "Mikko Marttila"
+    subtitle = "A simple theme for Hugo"
+    keywords = ""
+    copyright = ""
+    menuMore = "Show more"
+    writtenBy = "Written by"
+    readMore = "Read more"
+    readOtherPosts = "Read other posts"
+    newerPosts = "Newer posts"
+    olderPosts = "Older posts"
+    minuteReadingTime = "min read"
+    dateFormatSingle = "2006-01-02"
+    dateFormatList = "2006-01-02"
 
-    MathJaxCDN = "//cdn.bootcss.com"
-    MathJaxVersion = "2.7.1"
+    [languages.en.params.logo]
+      logoText = "mikko marttila"
+      logoHomeLink = "/"
+    # or
+    #
+    # path = "/img/your-example-logo.svg"
+    # alt = "Your example logo alt text"
 
-    [params.logo]
-    url = "profile.jpg"
-    width = 50
-    height = 50
-    alt = "Logo"
+    [languages.en.menu]
+      [[languages.en.menu.main]]
+        identifier = "about"
+        name = "About"
+        url = "/about"
