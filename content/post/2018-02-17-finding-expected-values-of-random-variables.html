@@ -11,8 +11,6 @@ tags:
   - statistics
 ---
 
-
-
 <p>Today, I <a href="https://stackoverflow.com/a/48840012/4550695">answered a StackOverflow question</a> where the author was implementing a function for finding the mean of a continuous random variable, given its <a href="https://en.wikipedia.org/wiki/Probability_density_function">probability density function</a> (PDF).</p>
 <p>In the process of writing up my answer, I ended up applying some functional programming techniques (specifically <a href="https://adv-r.hadley.nz/functional-programming.html#function-factories9">function factories</a>). I also found myself exploring the problem quite far outside the scope of the original question, so I thought the full story would make more sense as a blog post – so here we are!</p>
 <p>We’ll be going through a simple R implementation for finding the expected value for any transformation of a random variable.</p>

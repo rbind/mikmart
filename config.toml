@@ -1,13 +1,17 @@
 baseurl = "/"
 languageCode = "en-us"
 theme = "hugo-theme-hello-friend"
-paginate = 5
+paginate = 3
+enableEmoji = true
+
+[permalinks]
+    post = "/:year/:month/:day/:slug/"
 
 [params]
   # dir name of your blog content (default is `content/posts`)
   contentTypeName = "post"
   # "light" or "dark"
-  defaultTheme = "dark"
+  defaultTheme = "light"
   # if you set this to 0, only submenu trigger will be visible
   showMenuItems = 2
   # Enable to show reading time in minutes for posts
@@ -42,3 +46,12 @@ paginate = 5
         identifier = "about"
         name = "About"
         url = "/about"
+      [[languages.en.menu.main]]
+        identifier = "github"
+        name = "GitHub"
+        url = "https://github.com/mikmart"
+
+[markup]
+  defaultMarkdownHandler = "goldmark"
+  [markup.goldmark.renderer]
+    unsafe = true  # Enable user to embed HTML snippets in Markdown content.
