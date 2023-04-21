@@ -1,0 +1,56 @@
+---
+title: data.table joins
+author: Mikko Marttila
+date: '2023-04-21'
+slug: data-table-joins
+categories:
+  - r
+tags:
+  - data.table
+  - cheatsheet
+---
+
+Natural equi-joins in [data.table](https://rdatatable.gitlab.io/data.table/), no frills.
+
+<!--more-->
+
+``` {r setup}
+library(data.table)
+
+data("band_members", package = "dplyr")
+data("band_instruments", package = "dplyr")
+
+setDT(band_members)
+setDT(band_instruments)
+```
+
+## Datasets
+
+``` {r datasets}
+band_members
+band_instruments
+```
+
+## Full join
+
+``` {r full-join}
+merge(band_members, band_instruments, all = TRUE)
+```
+
+## Left join
+
+``` {r left-join}
+merge(band_members, band_instruments, all.x = TRUE)
+```
+
+## Right join
+
+``` {r right-join}
+band_members[band_instruments, on = .NATURAL]
+```
+
+## Inner join
+
+``` {r inner-join}
+band_members[band_instruments, on = .NATURAL, nomatch = NULL]
+```
