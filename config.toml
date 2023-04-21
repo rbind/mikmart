@@ -23,7 +23,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 [languages]
   [languages.en]
     title = "Mikko Marttila"
-    subtitle = "A simple theme for Hugo"
+    subtitle = "A personal website and blog"
     keywords = ""
     copyright = ""
     menuMore = "Show more"
@@ -35,7 +35,7 @@ ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
     minuteReadingTime = "min read"
     dateFormatSingle = "2006-01-02"
     dateFormatList = "2006-01-02"
-    
+
     [languages.en.params.logo]
       logoText = "mikko marttila"
       logoHomeLink = "/"
