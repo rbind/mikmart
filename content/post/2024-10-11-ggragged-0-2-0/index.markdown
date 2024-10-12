@@ -80,7 +80,7 @@ Prompted by a [bug report](https://github.com/mikmart/ggragged/issues/2) and fix
 the panel rendering logic was fully rewritten in this release.
 
 Previously, panel rendering was delegated to `FacetWrap`, with some post-processing
-done to add missing elements. This always felt like a bit of hack to me. It
+done to add missing elements. This always felt like a bit of a hack to me. It
 didn't really allow easily extending ggragged with new features, and I never
 could figure out how to resolve obvious code duplication between the row and column
 layouts with that approach.
@@ -96,6 +96,6 @@ characteristic results.
 Overall I'm really happy with how the code base turned out after these changes,
 and I'm confident this puts the package on stable ground for future development.
 I've done quite a bit of testing to ensure I didn't miss any features that rendering
-via `FacetWrap` was giving for free. But if you spot something I missed, I'd really
-appreciate it if you [opened an issue on GitHub](https://github.com/mikmart/ggragged/issues)
+via `FacetWrap` was giving for free. But if you spot something I did miss, I'd really
+appreciate it if you would [open an issue on GitHub](https://github.com/mikmart/ggragged/issues)
 to let me know.
